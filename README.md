@@ -49,3 +49,13 @@ git status
 git push
 
 git branch# inspire_stem
+
+
+
+git add * 
+git commit -m "second commit"
+git push
+ 
+
+
+          
