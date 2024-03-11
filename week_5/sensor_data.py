@@ -1,10 +1,10 @@
-# pip install ujson
-
 from tkinter import *
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import serial
+import time
 import ujson
+import threading
 
 window = Tk()
 
@@ -47,17 +47,27 @@ lbl = Label(window, text="Temperature: \nHumidity: ")
 lbl.grid(column=0, row=0)
 
 # Button to start receiving data
-ser = serial.Serial('COM3', 115200)  # Change the port accordingly
+ser = serial.Serial('COM34', 115200)  # Change the port accordingly
 times = [0]
 temperatures = [0]
 humidities = [0]
 
-def start_reading():
+# Function to start the update loop in a separate thread
+def start_update_loop():
     while True:
         update_plot(ser)
+        time.sleep(1)  # Adjust the sleep duration as needed
 
-# Button to trigger data reception
-btn = Button(window, text="Start Reading", command=start_reading)
-btn.grid(column=0, row=2, columnspan=2)
+# Create a separate thread for the update loop
+update_thread = threading.Thread(target=start_update_loop)
+update_thread.daemon = True  # The thread will exit when the main program exits
+update_thread.start()
+
+# Button to manually trigger data reception
+def get_data():
+    update_plot(ser)
+
+btn_get_data = Button(window, text="Get Data", command=get_data)
+btn_get_data.grid(column=0, row=2, columnspan=2)
 
 window.mainloop()

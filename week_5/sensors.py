@@ -1,14 +1,13 @@
 import machine
 import dht
 import time
-import ujson
-import ubluetooth
+import bluetooth
 
 # Define DHT11 pin
 dht_pin = machine.Pin(2, machine.Pin.IN)
 
 # Define Bluetooth characteristics
-bt_uart = ubluetooth.UART(1, 115200)
+bt = bluetooth.BLE()
 
 # Function to read temperature and humidity from DHT11
 def read_dht():
@@ -22,5 +21,8 @@ def read_dht():
 while True:
     temp, humidity = read_dht()
     data = {'temperature': temp, 'humidity': humidity}
-    bt_uart.write(ujson.dumps(data) + '\n')
+    
+    # Send data as a JSON string
+    bt.gatts_write(0, json.dumps(data))
+    
     time.sleep(2)  # Adjust the delay based on your needs
