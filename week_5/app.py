@@ -1,6 +1,6 @@
 # install tkinter  and pyserial
 # pip install pyserial
-# pip install tkintker 
+# pip install tk
 
 # basic hello world
 

@@ -4,7 +4,7 @@ window = Tk()
 
 window.title("Sensors")
 
-window.geometry('400x400')
+window.geometry('600x600')
 
 temp = 68
 lbl = Label(window, text="Temperature: {}".format(temp))
@@ -12,7 +12,7 @@ lbl.grid(column=0, row=0)
 
 def clicked():
     global temp
-    temp += 1
+    temp = temp + 1
     lbl.configure(text="Temperature: {}".format(temp))
 
 btn = Button(window, text="Increase Temperature", command=clicked)
